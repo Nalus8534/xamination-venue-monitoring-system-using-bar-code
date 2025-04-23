@@ -1,1 +1,1 @@
-# xamination-venue-monitoring-system-using-bar-code
+Updated README.md with project details
