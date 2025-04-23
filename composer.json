@@ -1,0 +1,17 @@
+{
+    "name": "user/examination-venue-monitoring-system",
+    "autoload": {
+        "psr-4": {
+            "User\\ExaminationVenueMonitoringSystem\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "E8534",
+            "email": "boyzephyr2@gmail.com"
+        }
+    ],
+    "require": {
+        "smalot/pdfparser": "^2.12"
+    }
+}

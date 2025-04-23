@@ -1,0 +1,37 @@
+[2025-04-23 00:25:50] Invalid or empty data received.
+[2025-04-23 00:31:39] Invalid or empty data received.
+[2025-04-23 00:36:51] Invalid or empty data received.
+[2025-04-23 00:37:21] Invalid or empty data received.
+[2025-04-23 00:40:22] Invalid or empty data received.
+[2025-04-23 00:43:25] Invalid or empty data received.
+[2025-04-23 00:50:35] Invalid or empty data received.
+[2025-04-23 01:00:58] Invalid or empty data received.
+[2025-04-23 01:12:09] Missing required data for a student: {"full_name":"Abillah Mmole kalulu 23010112001","admission_number":"4","nta_level":"","exam_number":"","program":"ET\/200 Ordinary Diploma In civil engineering","venue":"R12\/13"}
+[2025-04-23 01:15:46] Exception: Duplicate entry '23010112001-ET/200' for key 'unique_student'
+[2025-04-23 01:25:58] Exception: Duplicate entry '23010112001-ET/200' for key 'unique_student'
+[2025-04-23 01:34:18] Missing required data for a student: {"full_name":"Kimweri Emmanuel 23010112022Level","admission_number":"4","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 01:38:09] Missing required data for a student: {"full_name":"Ezra Amani Mwambebule","admission_number":"23010112010","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 01:38:55] Missing required data for a student: {"full_name":"Ezra Amani Mwambebule","admission_number":"23010112010","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 01:40:03] Missing required data for a student: {"full_name":"Faustin Benjamin Ndimila","admission_number":"23010112011","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 01:40:11] Missing required data for a student: {"full_name":"Faustin Benjamin Ndimila","admission_number":"23010112011","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 01:40:45] Exception: Duplicate entry '23010112001-ET/200' for key 'unique_student'
+[2025-04-23 02:46:54] Missing required data for a student: {"full_name":"Abillah Mmole 23010112001","admission_number":"4","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 02:47:12] Missing required data for a student: {"full_name":"Abillah Mmole 23010112001","admission_number":"4","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 02:48:14] Missing required data for a student: {"full_name":"Abillah Mmole 23010112001","admission_number":"4","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 02:48:21] Missing required data for a student: {"full_name":"Abillah Mmole 23010112001","admission_number":"4","nta_level":"","exam_number":"","program":"","venue":""}
+[2025-04-23 03:14:15] Exception: Duplicate entry '23010112001-' for key 'unique_student'
+[2025-04-23 03:21:55] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"","venue":""}
+[2025-04-23 03:22:09] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"","venue":""}
+[2025-04-23 03:25:38] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"","venue":""}
+[2025-04-23 03:26:21] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 03:28:49] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 03:28:54] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:14:20] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:19:22] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:20:31] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:23:32] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:27:22] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:28:08] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:33:25] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
+[2025-04-23 06:37:32] Missing required data for a student: {"full_name":"Aristarick Meleckisedeck Mwano23030612022","admission_number":"4","nta_level":"","exam_number":"T2\/EB\/42\/6601","program":"Ordinary Diploma In Electrical And Biomedical Engineering","venue":"DH"}
+[2025-04-23 06:38:46] Missing required data for a student: {"full_name":"Aristarick Meleckisedeck Mwano23030612022","admission_number":"4","nta_level":"","exam_number":"T2\/EB\/42\/6601","program":"Ordinary Diploma In Electrical And Biomedical Engineering","venue":"DH"}
