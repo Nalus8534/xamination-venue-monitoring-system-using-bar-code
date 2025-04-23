@@ -1,1 +1,2 @@
-Updated README.md with project details
+"# examination-venue-monitoring-system-using-bar-code" 
+"# examination-venue-monitoring-system-using-bar-code" 
