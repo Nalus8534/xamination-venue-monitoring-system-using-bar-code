@@ -11,6 +11,15 @@ include 'db_connection.php';
 //     return $fullName;
 // }
 
+// Fetch total count of students
+$total_students = 0;
+$count_query = "SELECT COUNT(*) AS total FROM venues";
+$count_result = $conn->query($count_query);
+if ($count_result && $count_result->num_rows > 0) {
+    $count_row = $count_result->fetch_assoc();
+    $total_students = $count_row['total'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +115,7 @@ include 'db_connection.php';
             width: 100%; /* Make progress bar full width */
             /* margin: 10px auto; */ /* Removed auto margin */
             background-color: #444;
-            border-radius: 5px;
+            border-radius: 5-x;
             overflow: hidden;
             display: none; /* Hidden by default */
             margin-bottom: 10px; /* Space below progress bar */
@@ -164,6 +173,15 @@ include 'db_connection.php';
             color: #aaa;
         }
 
+        /* Style for the student count display */
+        #studentCount {
+            margin: 10px 0;
+            text-align: center;
+            font-size: 1.1em;
+            color: #a0c0ff; /* Lighter blue */
+        }
+
+
         table {
             width: 100%; /* Use full width */
             margin: 20px 0; /* Adjust margin */
@@ -200,11 +218,20 @@ include 'db_connection.php';
         }
 
         /* Allow wrapping for specific columns if needed */
-         table td:nth-child(1), /* Full Name */
-         table td:nth-child(5)  /* Program */
+         table td:nth-child(2), /* Full Name (now 2nd column) */
+         table td:nth-child(6)  /* Program (now 6th column) */
          {
             white-space: normal;
         }
+
+        /* Style for the ID column */
+        table th:first-child,
+        table td:first-child {
+            width: 50px; /* Fixed width for ID column */
+            text-align: center;
+            white-space: nowrap;
+        }
+
 
         footer {
             text-align: center;
@@ -304,10 +331,12 @@ include 'db_connection.php';
      </div>
 
     <main>
+        <div id="studentCount">Total Registered Students: <?php echo $total_students; ?></div>
+
         <table>
             <thead>
                 <tr>
-                    <th>Full Name</th>
+                    <th>#</th> <th>Full Name</th>
                     <th>Admission Number</th>
                     <th>NTA Level</th>
                     <th>Exam Number</th>
@@ -319,12 +348,15 @@ include 'db_connection.php';
                 <?php
                 // Fetch initial data from DB on page load
                 try {
+                    // Use a variable to keep track of the row number
+                    $row_number = 1;
                     $sql = "SELECT full_name, admission_number, nta_level, exam_number, program, venue FROM venues ORDER BY full_name"; // Added ORDER BY
                     $result = $conn->query($sql);
 
                     if ($result && $result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
+                            echo "<td>" . $row_number . "</td>"; // Display the row number
                             echo "<td>" . htmlspecialchars($row['full_name'] ?? '') . "</td>"; // Use null coalescing for safety
                             echo "<td>" . htmlspecialchars($row['admission_number'] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['nta_level'] ?? '') . "</td>";
@@ -332,14 +364,17 @@ include 'db_connection.php';
                             echo "<td>" . htmlspecialchars($row['program'] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['venue'] ?? '') . "</td>";
                             echo "</tr>";
+                            $row_number++; // Increment the row number
                         }
                     } else {
-                        echo "<tr><td colspan='6' style='text-align: center;'>No students found in the database. Upload a PDF to add students.</td></tr>";
+                        // Update colspan to 7 for the new column
+                        echo "<tr><td colspan='7' style='text-align: center;'>No students found in the database. Upload a PDF to add students.</td></tr>";
                     }
                 } catch (Exception $e) {
                     // Log error securely
                     error_log("Database Error in view_students.php: " . $e->getMessage());
-                    echo "<tr><td colspan='6' style='text-align: center;'>Error fetching data from database.</td></tr>";
+                    // Update colspan to 7 for the new column
+                    echo "<tr><td colspan='7' style='text-align: center;'>Error fetching data from database.</td></tr>";
                 }
                 // $conn->close(); // Close connection only if script ends here. It's reused by search.
                 ?>
@@ -457,7 +492,8 @@ include 'db_connection.php';
             xhr.send(formData);
         });
 
-        // --- UPDATED PARSING FUNCTION ---
+        // --- UPDATED PARSING FUNCTION (from previous context) ---
+        // Keeping this function as it was last updated
         function parseExtractedText(text) {
             // Normalize line endings and replace non-breaking spaces (\u00A0)
             const normalizedText = text.replace(/\u00A0/g, ' ');
@@ -467,7 +503,7 @@ include 'db_connection.php';
             // Keywords to identify the end of the header section (adjust if needed)
             const headerEndKeywords = ["VENUE", "Program", "Exam number"]; // Finding any of these likely means headers are done or very close
 
-            console.log("--- Starting Parse (Exam Number Prioritized Pattern Matching) ---");
+            console.log("--- Starting Parse (Taking first 3 words as Name) ---");
 
             for (const line of lines) {
                 const trimmedLine = line.trim();
@@ -475,14 +511,18 @@ include 'db_connection.php';
 
                 // --- Header Detection ---
                 if (!headersProcessed) {
+                     // Check if this line contains any keyword indicating the header section might be ending
                      if (headerEndKeywords.some(keyword => trimmedLine.includes(keyword))) {
                          headersProcessed = true;
                          console.log("Header processing finished at line:", trimmedLine);
                      }
-                     continue; // Skip header lines
+                     // Always skip the line if headers are not yet marked as processed
+                     continue;
                 }
 
                 // --- Data Line Processing ---
+                // (Headers are processed, now look for data lines)
+
                 // Skip lines that still look like headers even after flag set (safety check)
                  if (["Full name", "Admission number", "NTA level"].some(keyword => trimmedLine.includes(keyword))) {
                       console.log("Skipping likely residual header:", trimmedLine);
@@ -627,13 +667,14 @@ include 'db_connection.php';
 
 
         // This function is less critical if insertStudentsIntoDB refreshes the page or table
+        // Updated to handle the new ID column
         function displayStudentsInTable(students) {
             const resultsContainer = document.getElementById('results');
             // Clear only if you want to replace existing rows with *only* the newly parsed ones
             // resultsContainer.innerHTML = ''; // Comment this out if you want to append or let refresh handle it
 
             if (students.length === 0 && resultsContainer.rows.length === 0) { // Check if table is also empty
-                resultsContainer.innerHTML = "<tr><td colspan='6' style='text-align: center;'>No student data parsed from PDF.</td></tr>";
+                resultsContainer.innerHTML = "<tr><td colspan='7' style='text-align: center;'>No student data parsed from PDF.</td></tr>"; // Updated colspan
                 return;
             } else if (students.length === 0) {
                  // Don't clear the table if parsing failed but DB has data
@@ -642,6 +683,8 @@ include 'db_connection.php';
 
             // Optional: Clear existing rows before adding new ones from PDF
             // resultsContainer.innerHTML = '';
+
+            let row_number = 1; // Start counter for display
 
             students.forEach(student => {
                 const row = document.createElement('tr');
@@ -657,7 +700,7 @@ include 'db_connection.php';
                           .replace(/'/g, "&#039;");
                 }
                 row.innerHTML = `
-                    <td>${escapeHtml(student.full_name)}</td>
+                    <td>${row_number++}</td> <td>${escapeHtml(student.full_name)}</td>
                     <td>${escapeHtml(student.admission_number)}</td>
                     <td>${escapeHtml(student.nta_level)}</td>
                     <td>${escapeHtml(student.exam_number)}</td>
@@ -727,20 +770,20 @@ include 'db_connection.php';
         // Search Functionality (using Debounce)
         const searchInput = document.getElementById('search');
         const resultsContainer = document.getElementById('results');
-        const initialTableContent = resultsContainer.innerHTML; // Store initial content
+        // We no longer store initialTableContent as we fetch fresh data
+        // const initialTableContent = resultsContainer.innerHTML; // Store initial content
 
          const handleSearch = debounce(function(query) {
              console.log("Searching for:", query);
 
              if (query === "") {
-                  // Restore initial content *or* reload full list from server
-                  //resultsContainer.innerHTML = initialTableContent; // Faster, but might be stale
-                  fetchStudents(); // Fetch fresh list
+                  // If query is empty, fetch and display all students
+                  fetchStudents();
                  return;
              }
 
              // Show loading state?
-              resultsContainer.innerHTML = "<tr><td colspan='6' style='text-align: center;'>Searching...</td></tr>";
+              resultsContainer.innerHTML = "<tr><td colspan='7' style='text-align: center;'>Searching...</td></tr>"; // Updated colspan
 
              // Use Fetch API for search as well for consistency
              fetch(`search_students.php?query=${encodeURIComponent(query)}`)
@@ -753,14 +796,19 @@ include 'db_connection.php';
                 .then(html => {
                     // Check if response is empty or indicates no results
                     if (!html.trim() || html.includes("No students found matching your query")) {
-                         resultsContainer.innerHTML = "<tr><td colspan='6' style='text-align: center;'>No students found matching your query.</td></tr>";
+                         resultsContainer.innerHTML = "<tr><td colspan='7' style='text-align: center;'>No students found matching your query.</td></tr>"; // Updated colspan
                     } else {
                          resultsContainer.innerHTML = html;
                     }
+                    // Note: The search results HTML from search_students.php should now include the ID column and count.
+                    // We might need to update the total count displayed on the page after search.
+                    // A simpler approach is to just update the table rows and not the total count on search,
+                    // as the total count is for all registered students, not just search results.
+                    // Let's keep the total count static on the page load and only update the table rows on search.
                 })
                 .catch(error => {
                     console.error('Error fetching search results:', error);
-                     resultsContainer.innerHTML = "<tr><td colspan='6' style='text-align: center;'>Error performing search.</td></tr>";
+                     resultsContainer.innerHTML = "<tr><td colspan='7' style='text-align: center;'>Error performing search.</td></tr>"; // Updated colspan
                 });
          }, 300); // 300ms delay
 
@@ -770,8 +818,8 @@ include 'db_connection.php';
 
         // Function to fetch all students (used for resetting search)
          function fetchStudents() {
-             resultsContainer.innerHTML = "<tr><td colspan='6' style='text-align: center;'>Loading students...</td></tr>";
-             fetch('fetch_all_students.php') // Create this new PHP file
+             resultsContainer.innerHTML = "<tr><td colspan='7' style='text-align: center;'>Loading students...</td></tr>"; // Updated colspan
+             fetch('fetch_all_students.php') // Fetch from the new PHP file
                  .then(response => {
                       if (!response.ok) {
                           throw new Error(`HTTP error ${response.status}`);
@@ -780,10 +828,12 @@ include 'db_connection.php';
                  })
                  .then(html => {
                      resultsContainer.innerHTML = html;
+                     // The total count is displayed by PHP on initial page load,
+                     // we don't need to update it here unless we change the fetching logic.
                  })
                  .catch(error => {
                      console.error('Error fetching all students:', error);
-                     resultsContainer.innerHTML = "<tr><td colspan='6' style='text-align: center;'>Error loading student list.</td></tr>";
+                     resultsContainer.innerHTML = "<tr><td colspan='7' style='text-align: center;'>Error loading student list.</td></tr>"; // Updated colspan
                  });
          }
 
@@ -795,6 +845,8 @@ include 'db_connection.php';
              header('Content-Type: text/html'); // Send HTML snippets
 
              $output = '';
+             $row_number = 1; // Initialize row number
+
              try {
                  $sql = "SELECT full_name, admission_number, nta_level, exam_number, program, venue FROM venues ORDER BY full_name";
                  $result = $conn->query($sql);
@@ -802,6 +854,7 @@ include 'db_connection.php';
                  if ($result && $result->num_rows > 0) {
                      while ($row = $result->fetch_assoc()) {
                          $output .= "<tr>";
+                         $output .= "<td>" . $row_number++ . "</td>"; // Add ID column
                          $output .= "<td>" . htmlspecialchars($row['full_name'] ?? '') . "</td>";
                          $output .= "<td>" . htmlspecialchars($row['admission_number'] ?? '') . "</td>";
                          $output .= "<td>" . htmlspecialchars($row['nta_level'] ?? '') . "</td>";
@@ -811,16 +864,73 @@ include 'db_connection.php';
                          $output .= "</tr>";
                      }
                  } else {
-                     $output = "<tr><td colspan='6' style='text-align: center;'>No students found in the database.</td></tr>";
+                     // Update colspan to 7
+                     $output = "<tr><td colspan='7' style='text-align: center;'>No students found in the database.</td></tr>";
                  }
              } catch (Exception $e) {
                  error_log("Database Error in fetch_all_students.php: " . $e->getMessage());
-                 $output = "<tr><td colspan='6' style='text-align: center;'>Error fetching data.</td></tr>";
+                 // Update colspan to 7
+                 $output = "<tr><td colspan='7' style='text-align: center;'>Error fetching data.</td></tr>";
              }
              $conn->close();
              echo $output;
          ?>
          */
+
+         // --- Create search_students.php ---
+         /*
+         <?php
+             // search_students.php
+             include 'db_connection.php'; // Include the database connection
+             header('Content-Type: text/html'); // Send HTML snippets
+
+             $output = '';
+             $row_number = 1; // Initialize row number for search results
+
+             if (isset($_GET['query'])) {
+                 $query = trim($_GET['query']);
+                 $search_term = "%" . $query . "%";
+
+                 // Modify SQL query to select all columns needed for the table
+                 $sql = "SELECT full_name, admission_number, nta_level, exam_number, program, venue
+                         FROM venues
+                         WHERE full_name LIKE ? OR admission_number LIKE ? OR exam_number LIKE ? OR program LIKE ? OR venue LIKE ?"; // Added program and venue to search
+                 $stmt = $conn->prepare($sql);
+                 // Bind parameters - need to match the number of placeholders
+                 $stmt->bind_param("sssss", $search_term, $search_term, $search_term, $search_term, $search_term);
+                 $stmt->execute();
+                 $result = $stmt->get_result();
+
+                 if ($result->num_rows > 0) {
+                     while ($row = $result->fetch_assoc()) {
+                         $output .= "<tr>";
+                         $output .= "<td>" . $row_number++ . "</td>"; // Add ID column
+                         $output .= "<td>" . htmlspecialchars($row['full_name'] ?? '') . "</td>";
+                         $output .= "<td>" . htmlspecialchars($row['admission_number'] ?? '') . "</td>";
+                         $output .= "<td>" . htmlspecialchars($row['nta_level'] ?? '') . "</td>";
+                         $output .= "<td>" . htmlspecialchars($row['exam_number'] ?? '') . "</td>";
+                         $output .= "<td>" . htmlspecialchars($row['program'] ?? '') . "</td>";
+                         $output .= "<td>" . htmlspecialchars($row['venue'] ?? '') . "</td>";
+                         $output .= "</tr>";
+                     }
+                 } else {
+                     // Update colspan to 7
+                     $output = "<tr><td colspan='7' style='text-align: center;'>No students found matching your query.</td></tr>";
+                 }
+                 $stmt->close();
+             } else {
+                 // If no query is provided, maybe return an empty state or all students?
+                 // Based on the JS, an empty query triggers fetchStudents(), so this else might not be strictly needed for the current JS logic,
+                 // but it's good practice for the PHP script itself.
+                 // Let's return an empty state if no query is provided directly to search_students.php
+                 $output = "<tr><td colspan='7' style='text-align: center;'>Please enter a search query.</td></tr>"; // Updated colspan
+             }
+
+             $conn->close();
+             echo $output;
+         ?>
+         */
+
 
     </script>
 </body>

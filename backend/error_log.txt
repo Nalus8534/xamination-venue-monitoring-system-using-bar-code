@@ -35,3 +35,5 @@
 [2025-04-23 06:33:25] Missing required data for a student: {"full_name":"Abillah Mmole matiku","admission_number":"23010112001","nta_level":"4","exam_number":"","program":"T2\/AE\/42\/7070 Ordinary Diploma In Auto-electrical And Electronics EngineeringR12\/13","venue":""}
 [2025-04-23 06:37:32] Missing required data for a student: {"full_name":"Aristarick Meleckisedeck Mwano23030612022","admission_number":"4","nta_level":"","exam_number":"T2\/EB\/42\/6601","program":"Ordinary Diploma In Electrical And Biomedical Engineering","venue":"DH"}
 [2025-04-23 06:38:46] Missing required data for a student: {"full_name":"Aristarick Meleckisedeck Mwano23030612022","admission_number":"4","nta_level":"","exam_number":"T2\/EB\/42\/6601","program":"Ordinary Diploma In Electrical And Biomedical Engineering","venue":"DH"}
+[2025-04-23 21:20:19] Exception: Duplicate entry '23010112001' for key 'PRIMARY'
+[2025-04-26 18:00:41] Missing required data for a student: {"full_name":"Frank Mabula\t22020312147","admission_number":"6","nta_level":"","exam_number":"T2\/C\/62\/8299","program":"Ordinary Diploma In Civil Engineering","venue":"R12\/13"}

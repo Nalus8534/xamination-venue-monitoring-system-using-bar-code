@@ -139,6 +139,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
         <a href="scan_ids.php">Scan IDs</a>
         <a href="view_students.php">View Registered Students</a>
         <a href="assign_venues.php">Assign Venues</a>
+        <a href="upload_image.php">Upload Student Image</a>
         <a href="logout.php" class="logout-btn">Logout</a>
     </div>
 
